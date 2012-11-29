@@ -1,0 +1,9 @@
+{
+  "author": "",
+  "name": "Xircles",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt-casperjs" : "x.x.x"
+  }
+}

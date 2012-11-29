@@ -1,0 +1,11 @@
+{
+  "author": "",
+  "name": "XirclesBackend",
+  "version": "0.0.0",
+  "dependencies": {
+    "express" : "x.x.x",
+    "socket.io" : "x.x.x"
+  },
+  "devDependencies": {
+  }
+}
