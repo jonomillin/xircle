@@ -1,11 +1,11 @@
 define [], ->
 
-  class RemotePlayer
+  class Player
     constructor: (attrs) ->
       @socket = attrs.socket
       @name = attrs.name
 
     register: ->
-      @socket.emit('register')
+      @socket.emit('player:register', {name: @name})
 
-  return RemotePlayer
+  return Player

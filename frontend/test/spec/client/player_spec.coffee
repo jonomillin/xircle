@@ -1,18 +1,17 @@
-require ['scripts/remote_player'], (RemotePlayer) ->
+require ['scripts/client/player'], (Player) ->
 
-  describe 'RemotePlayer', ->
+  describe 'client/Player', ->
     describe 'constructor', ->
       it 'should have a name', ->
-        console.log 'described'
-        player = new RemotePlayer(name: 'Pete')
+        player = new Player(name: 'Pete')
         expect(player.name).to.equal 'Pete'
     
     describe 'register', ->
       it 'should register with the socket', ->
         socket = {emit: -> true}
         mock = sinon.mock(socket)
-        mock.expects('emit').withArgs('register').once()
+        mock.expects('emit').withArgs('player:register', {name: 'Pete'}).once()
 
-        player = new RemotePlayer(socket: socket)
+        player = new Player(socket: socket, name: 'Pete')
         player.register()
         mock.verify()
