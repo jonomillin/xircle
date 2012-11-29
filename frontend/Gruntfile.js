@@ -55,7 +55,7 @@ module.exports = function( grunt ) {
 
     // headless testing through PhantomJS
     mocha: {
-      all: ['test/**/*.html']
+      all: ['http://localhost:3501/index.html']
     },
 
     // default watch configuration
@@ -63,6 +63,10 @@ module.exports = function( grunt ) {
       functional: {
         files: ['app/**/*.*', 'test/functional/**/*.coffee'],
         tasks: 'coffee casperjs'
+      },
+      unit: {
+        files: ['app/**/*.*', 'test/spec/**/*.coffee'],
+        tasks: 'coffee mocha'
       },
       coffee: {
         files: ['app/scripts/**/*.coffee', 'test/**/*.coffee'],
@@ -201,6 +205,7 @@ module.exports = function( grunt ) {
 
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'server:phantom mocha');
+  grunt.registerTask('unit', 'coffee test watch:unit');
   grunt.registerTask('functional', 'coffee grunt-server casperjs watch:functional');
 
 };

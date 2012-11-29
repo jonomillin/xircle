@@ -6,8 +6,17 @@
   <link rel="stylesheet" href="lib/mocha/mocha.css">
 </head>
 <body>
+  <script>
+    window.onerror = function() {
+      var args = [].slice.call(arguments);
+      var string = JSON.stringify(args);
+      console.log(string);
+    }
+  </script>
+
   <div id="mocha"></div>
   <script src="lib/mocha/mocha.js"></script>
+  <script src="lib/sinon.js"></script>
   <script>mocha.setup({ ui: 'bdd', ignoreLeaks: true })</script>
 
   <!-- assertion framework -->
@@ -20,15 +29,8 @@
     chai.should()
   </script>
       
-    
-  
-
-  <!-- -->
-
-  <!-- include source files here... -->
-
   <!-- include spec files here... -->
-  <script  src="scripts/vendor/require.js"></script>
+  <script src="scripts/vendor/require.js"></script>
   <script>
     require.config({
       urlArgs: "bust=" +  (new Date()).getTime()
@@ -37,23 +39,58 @@
 
   <script src='scripts/specs.js'></script>
 
-  <script>
+  <!-- trigger the mocha runner -->
+  <script><!-- src="runner/mocha.js">-->
+    setTimeout(function() {
+      (function() {
+        var runner = mocha.run();
 
-    //(function() {
-    //  describe('Give it some context', function() {
-    //    describe('maybe a bit more context here', function() {
+        console.log('here?')
+        if(!window.PHANTOMJS) return;
 
-    //      it('should run here few assertions', function() {
+        console.log('here?')
 
-    //      });
+        runner.on('test', function(test) {
+          sendMessage('testStart', test.title);
+        });
 
-    //    });
-    //  });
-    //})();
+        runner.on('test end', function(test) {
+          sendMessage('testDone', test.title, test.state);
+        });
+
+        runner.on('suite', function(suite) {
+          sendMessage('suiteStart', suite.title);
+        });
+
+        runner.on('suite end', function(suite) {
+          if (suite.root) return;
+          sendMessage('suiteDone', suite.title);
+        });
+
+        runner.on('fail', function(test, err) {
+          sendMessage('testFail', test.title, err);
+        });
+
+        runner.on('end', function() {
+          var output = {
+            failed  : this.failures,
+            passed  : this.total - this.failures,
+            total   : this.total
+          };
+
+          sendMessage('done', output.failed,output.passed, output.total);
+        });
+
+        function sendMessage() {
+          console.log('sned');
+          var args = [].slice.call(arguments);
+          var string = JSON.stringify(args);
+          console.log(string);
+          alert(string);
+        }
+      })();
+    }, 100);
   </script>
 
-  <!-- trigger the mocha runner -->
-  <script src="runner/mocha.js"></script>
-
-</body>
-</html>
+  </body>
+  </html>
