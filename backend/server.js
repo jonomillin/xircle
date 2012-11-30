@@ -34,6 +34,8 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('player:register', function(data) {
+    socket.broadcast.emit('player:register', data);
+    console.log('Registered');
     var id = registerPlayer();
     socket.on('move', function(pos) {
       if (gamespace) { 

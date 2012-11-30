@@ -21,14 +21,15 @@ c.server.start urls.base, ->
   @test.comment 'Starting Server'
 
 c.server.then ->
-  @test.assertSelectorHasText '#num_players', '0 players'
+  @test.assertSelectorHasText '#num_players', '0 players', 'Expected no players'
 
 c.remote.start urls.remote, ->
   @test.comment 'Loading remote'
   @test.assertTitle 'Xircle Remote', 'Xircle remote title'
 
-  c.server.then ->
-    @test.assertSelectorHasText '#num_players', '1 player'
+  this.wait 200, ->
+    c.server.then ->
+      @test.assertSelectorHasText '#num_players', '1 players', "Expected one player after registered"
 
 c.server.run ->
   @test.done()
