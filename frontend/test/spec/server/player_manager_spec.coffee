@@ -1,11 +1,11 @@
-define ['scripts/server/player_manager', 'scripts/shared/micro_event'], (PlayerManager, Event) ->
+define ['server/player_manager', 'shared/micro_event'], (PlayerManager, Event) ->
 
   describe 'server/PlayerManager', ->
     describe 'constructor', ->
       it 'should create a player on `player:new`', ->
         fake_socket = new Event
         manager = new PlayerManager(socket: fake_socket)
-        fake_socket.emit('player:new', {})
+        fake_socket.emit('player:register', {})
 
         expect(manager.playerCount()).to.equal 1
 
@@ -16,7 +16,7 @@ define ['scripts/server/player_manager', 'scripts/shared/micro_event'], (PlayerM
         spy = sinon.spy()
         manager.on('player:registered', spy)
 
-        fake_socket.emit('player:new', { name: 'Pete' })
+        fake_socket.emit('player:register', { name: 'Pete' })
         
         expect(spy.called).to.be.true
         expect(spy.getCall(0).args[0].name).to.equal 'Pete'

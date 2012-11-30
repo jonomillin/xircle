@@ -2,7 +2,7 @@
 
 File.open('test/specs.js', 'w+') do |f|
   specs = Dir[ File.dirname(__FILE__)+"/../temp/scripts/tests/spec/test/**/*.js"].map { |f|
-    f.gsub!(%r{\./bin/\.\./temp/}, '')
+    f.gsub!(%r{\./bin/\.\./temp/scripts/}, '')
       .gsub!(/.js$/, '')
     "'#{f}'"
   }

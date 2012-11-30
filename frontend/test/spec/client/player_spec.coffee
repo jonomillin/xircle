@@ -1,4 +1,4 @@
-require ['scripts/client/player'], (Player) ->
+require ['client/player'], (Player) ->
 
   console.log(Player)
   describe 'client/Player', ->

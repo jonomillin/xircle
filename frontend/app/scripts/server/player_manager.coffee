@@ -11,6 +11,7 @@ define ['server/player', 'shared/micro_event'], (Player, Event) ->
       @socket.on 'player:register', @onNewPlayer
 
     onNewPlayer: (player_opts) =>
+      console.log 'onnew'
       player = new Player(player_opts)
       @players.push player
       @emit('player:registered', player, @playerCount())

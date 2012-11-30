@@ -1,3 +1,8 @@
+var path = require('path')
+  , connect = require('connect')
+  ; 
+
+
 module.exports = function( grunt ) {
   'use strict';
   //
@@ -19,7 +24,7 @@ module.exports = function( grunt ) {
     },
 
     casperjs: {
-      files: ['temp/tests/functional/**/*.js']
+      files: ['test/functional/**/*.coffee']
     },
     
     shell: {
@@ -33,8 +38,7 @@ module.exports = function( grunt ) {
       compile: {
         files: {
           'temp/scripts/*.js': 'app/scripts/**/*.coffee',
-          'temp/scripts/tests/spec/*.js': 'test/spec/**/*.coffee',
-          'temp/tests/functional/*.js': 'test/functional/**/*.coffee'
+          'temp/scripts/tests/spec/*.js': 'test/spec/**/*.coffee'
         },
         options: {
           basePath: 'app/scripts'
@@ -70,7 +74,7 @@ module.exports = function( grunt ) {
     watch: {
       functional: {
         files: ['app/**/*.*', 'test/functional/**/*.coffee'],
-        tasks: 'coffee casperjs'
+        tasks: 'casperjs'
       },
       unit: {
         files: ['app/**/*.*', 'test/spec/**/*.coffee'],
@@ -192,12 +196,12 @@ module.exports = function( grunt ) {
       optimize: 'none',
       baseUrl: './scripts',
       wrap: true,
-      name: 'main'
+      name: 'main',
     },
 
     server: {
-     port: 3501,
-     base: './app'
+      port: 3501,
+      base: './app'
     },
 
     // While Yeoman handles concat/min when using
@@ -214,6 +218,31 @@ module.exports = function( grunt ) {
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'server:phantom mocha');
   grunt.registerTask('unit', 'coffee shell test watch:unit');
-  grunt.registerTask('functional', 'coffee shell grunt-server casperjs watch:functional');
+  grunt.registerTask('functional', 'functional-server casperjs watch:functional');
+
+  grunt.registerTask('functional-server', 'Web server', function() {
+    var port = 3502 || grunt.config('server.port') || 8000;
+    var base = path.resolve(grunt.config('server.base') || '.');
+
+    var middleware = [
+      // Serve temp files
+      connect.static(path.join(base, '../temp')),
+      // Serve static files.
+      connect.static(base),
+      // Make empty directories browsable. (overkill?)
+      connect.directory(base)
+    ];
+
+    // If --debug was specified, enable logging.
+    if (grunt.option('debug')) {
+      connect.logger.format('grunt', ('[D] server :method :url :status ' +
+        ':res[content-length] - :response-time ms').magenta);
+      middleware.unshift(connect.logger('grunt'));
+    }
+
+    // Start server.
+    grunt.log.writeln('Starting static web server on port ' + port + '.');
+    connect.apply(null, middleware).listen(port);
+  });
 
 };

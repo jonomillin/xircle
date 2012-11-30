@@ -31,13 +31,16 @@
       
   <!-- include spec files here... -->
   <script src="scripts/require.config.js"></script>
+  <script>
+    require.baseUrl = './scripts'
+  </script>
   <script src="scripts/vendor/require.js"></script>
 
   <!-- trigger the mocha runner -->
   <!-- src="runner/mocha.js">-->
 
   <script>
-    require(['specs'], function (specs) {
+    require(['../specs'], function (specs) {
       var runner = mocha.run();
 
       if(!window.PHANTOMJS) return;

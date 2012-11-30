@@ -1,4 +1,4 @@
-define ['scripts/server/player_stats_renderer', 'scripts/shared/micro_event'], (PlayerStatsRenderer, Event) ->
+define ['server/player_stats_renderer', 'shared/micro_event'], (PlayerStatsRenderer, Event) ->
 
   describe 'server/PlayerStatsRenderer', ->
     it 'should render the player count', ->

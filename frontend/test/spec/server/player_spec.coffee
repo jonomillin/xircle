@@ -1,4 +1,4 @@
-require ['scripts/server/player'], (Player) ->
+require ['server/player'], (Player) ->
 
   describe 'server/Player', ->
     describe 'constructor', ->
