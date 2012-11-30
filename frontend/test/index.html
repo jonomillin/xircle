@@ -37,60 +37,55 @@
     })
   </script>
 
-  <script src='scripts/specs.js'></script>
-
   <!-- trigger the mocha runner -->
-  <script><!-- src="runner/mocha.js">-->
-    setTimeout(function() {
-      (function() {
-        var runner = mocha.run();
+  <!-- src="runner/mocha.js">-->
 
-        console.log('here?')
-        if(!window.PHANTOMJS) return;
+  <script>
+    require(['specs'], function (specs) {
+      var runner = mocha.run();
 
-        console.log('here?')
+      if(!window.PHANTOMJS) return;
 
-        runner.on('test', function(test) {
-          sendMessage('testStart', test.title);
-        });
+      runner.on('test', function(test) {
+        sendMessage('testStart', test.title);
+      });
 
-        runner.on('test end', function(test) {
-          sendMessage('testDone', test.title, test.state);
-        });
+      runner.on('test end', function(test) {
+        sendMessage('testDone', test.title, test.state);
+      });
 
-        runner.on('suite', function(suite) {
-          sendMessage('suiteStart', suite.title);
-        });
+      runner.on('suite', function(suite) {
+        sendMessage('suiteStart', suite.title);
+      });
 
-        runner.on('suite end', function(suite) {
-          if (suite.root) return;
-          sendMessage('suiteDone', suite.title);
-        });
+      runner.on('suite end', function(suite) {
+        if (suite.root) return;
+        sendMessage('suiteDone', suite.title);
+      });
 
-        runner.on('fail', function(test, err) {
-          sendMessage('testFail', test.title, err);
-        });
+      runner.on('fail', function(test, err) {
+        sendMessage('testFail', test.title, err);
+      });
 
-        runner.on('end', function() {
-          var output = {
-            failed  : this.failures,
-            passed  : this.total - this.failures,
-            total   : this.total
-          };
+      runner.on('end', function() {
+        var output = {
+          failed  : this.failures,
+          passed  : this.total - this.failures,
+          total   : this.total
+        };
 
-          sendMessage('done', output.failed,output.passed, output.total);
-        });
+        sendMessage('done', output.failed,output.passed, output.total);
+      });
 
-        function sendMessage() {
-          console.log('sned');
-          var args = [].slice.call(arguments);
-          var string = JSON.stringify(args);
-          console.log(string);
-          alert(string);
-        }
-      })();
-    }, 100);
-  </script>
+      function sendMessage() {
+        console.log('sned');
+        var args = [].slice.call(arguments);
+        var string = JSON.stringify(args);
+        console.log(string);
+        alert(string);
+      }
+  });
+</script>
 
-  </body>
-  </html>
+</body>
+</html>

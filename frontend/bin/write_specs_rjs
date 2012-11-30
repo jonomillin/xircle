@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+File.open('test/specs.js', 'w+') do |f|
+  specs = Dir[ File.dirname(__FILE__)+"/../temp/scripts/tests/spec/test/**/*.js"].map { |f|
+    f.gsub!(%r{\./bin/\.\./temp/}, '')
+      .gsub!(/.js$/, '')
+    "'#{f}'"
+  }
+
+  f.write <<-EOT
+define([
+  #{specs.join(",\n")}
+], function() {
+});
+  EOT
+end
+
+

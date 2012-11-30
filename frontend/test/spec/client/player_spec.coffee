@@ -1,5 +1,6 @@
 require ['scripts/client/player'], (Player) ->
 
+  console.log(Player)
   describe 'client/Player', ->
     describe 'constructor', ->
       it 'should have a name', ->

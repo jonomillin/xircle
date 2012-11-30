@@ -6,6 +6,7 @@ module.exports = function( grunt ) {
   // https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
   //
   grunt.loadNpmTasks('grunt-casperjs');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.initConfig({
 
@@ -20,12 +21,19 @@ module.exports = function( grunt ) {
     casperjs: {
       files: ['temp/tests/functional/**/*.js']
     },
+    
+    shell: {
+      write_specs_rjs: {
+        command: './bin/write_specs_rjs'
+      }
+    },
+
     // Coffee to JS compilation
     coffee: {
       compile: {
         files: {
           'temp/scripts/*.js': 'app/scripts/**/*.coffee',
-          'temp/scripts/specs.js': ['test/spec/**/*.coffee'],
+          'temp/scripts/tests/spec/*.js': 'test/spec/**/*.coffee',
           'temp/tests/functional/*.js': 'test/functional/**/*.coffee'
         },
         options: {
@@ -66,7 +74,7 @@ module.exports = function( grunt ) {
       },
       unit: {
         files: ['app/**/*.*', 'test/spec/**/*.coffee'],
-        tasks: 'coffee mocha'
+        tasks: 'coffee shell mocha'
       },
       coffee: {
         files: ['app/scripts/**/*.coffee', 'test/**/*.coffee'],
@@ -205,7 +213,7 @@ module.exports = function( grunt ) {
 
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'server:phantom mocha');
-  grunt.registerTask('unit', 'coffee test watch:unit');
-  grunt.registerTask('functional', 'coffee grunt-server casperjs watch:functional');
+  grunt.registerTask('unit', 'coffee shell test watch:unit');
+  grunt.registerTask('functional', 'coffee shell grunt-server casperjs watch:functional');
 
 };

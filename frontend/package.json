@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
-    "grunt-casperjs" : "x.x.x"
+    "grunt-casperjs" : "x.x.x",
+    "grunt-shell" : "x.x.x"
   }
 }
