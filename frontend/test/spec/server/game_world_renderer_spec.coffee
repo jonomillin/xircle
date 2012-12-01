@@ -10,11 +10,11 @@ define ['server/game_world_renderer', 'jquery'], (GameWorldRenderer, $) ->
 
 
     it 'should render all the objects in the world onto it', ->
-      stage = 'stage'
-      obj = { renderTo: (stage) -> true }
+      stage = { update: (-> true) }
+      obj = { renderTo: ((stage) -> true) }
       world = { objects: [obj], eachObject: (cb) -> @objects.forEach(cb) }
 
-      mock = sinon.mock(obj).expects('renderTo').withArgs(stage)
+      mock = sinon.mock(obj).expects('renderTo')
       new GameWorldRenderer(stage: stage).render(world)
       mock.verify().should.be.true
 

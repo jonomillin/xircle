@@ -14,4 +14,14 @@ define ['server/world_object'], (WorldObject) ->
       obj = new WorldObject( velocity: [10,-20], position: [5,10] )
       obj.step(0.1)
       obj.position.should.eql [6,8]
+
+    it 'can by movedBy', ->
+      obj = new WorldObject( position: [5,10] )
+      obj.moveBy( [1,-1] )
+      obj.position.should.eql [6,9]
+
+    it 'can be movedTo', ->
+      obj = new WorldObject( position: [5,10] )
+      obj.moveTo( [20,30] )
+      obj.position.should.eql [20,30]
       

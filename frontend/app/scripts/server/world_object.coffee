@@ -14,5 +14,11 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
       if @graphic
         @graphic.renderTo(stage, @position)
 
+    moveTo: ( posVec ) ->
+      @position = posVec
+
+    moveBy: ( posVec ) ->
+      @position = Vector.add( @position, posVec )
+
     moveByTimestep: (timestep) ->
-      @position = Vector.add( @position, Vector.scale(timestep, @velocity) )
+      @moveBy Vector.scale( timestep, @velocity )

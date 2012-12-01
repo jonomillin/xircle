@@ -12,7 +12,6 @@ define ['server/player', 'shared/micro_event', 'underscore'], (Player, Event, _)
       @socket.on 'player:leave', @onPlayerLeave
 
     onPlayerRegister: (player_id, player_opts) =>
-      console.log 'player register'
       player = new Player(player_opts)
       @players[player_id] = player
       @emitPlayerCount()
@@ -21,7 +20,7 @@ define ['server/player', 'shared/micro_event', 'underscore'], (Player, Event, _)
       if player = @players[player_id]
         delete(@players[player_id])
         @emitPlayerCount()
-      
+
     emitPlayerCount: ->
       @emit 'change:player_count', @playerCount()
 
