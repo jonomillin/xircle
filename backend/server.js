@@ -34,7 +34,7 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit('player:register', id, {});
 
     socket.on('player:move_by', function(offsetVector) {
-      gamespace.emit('player:move_by', id, offsetVector)
+      io.sockets.emit('player:move_by', id, offsetVector)
     });
 
     socket.on('disconnect', function() {
