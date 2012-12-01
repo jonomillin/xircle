@@ -16,3 +16,13 @@ require ['client/player'], (Player) ->
         player = new Player(socket: socket, name: 'Pete')
         player.register()
         mock.verify()
+
+    describe 'moveBy', ->
+      it 'should move the player', ->
+        socket = { emit: -> true }
+        mock = sinon.mock(socket)
+        mock.expects('emit').withArgs('player:move_by', [1, -1])
+        player = new Player(socket: socket, name: 'Pete')
+        player.moveBy([1, -1])
+        mock.verify()
+        

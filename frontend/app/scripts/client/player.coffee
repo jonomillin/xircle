@@ -8,4 +8,7 @@ define [], ->
     register: ->
       @socket.emit('player:register', {name: @name})
 
+    moveBy: (offsetVector) ->
+      @socket.emit('player:move_by', offsetVector)
+
   return Player

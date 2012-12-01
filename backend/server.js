@@ -32,11 +32,11 @@ io.sockets.on('connection', function (socket) {
     var id = registerPlayer();
     console.log('Registered', id);
     io.sockets.emit('player:register', id, {});
-    socket.on('move', function(pos) {
-      if (gamespace) { 
-        gamespace.emit('player:'+id+':move', pos);
-      }
+
+    socket.on('player:move_by', function(offsetVector) {
+      gamespace.emit('player:move_by', id, offsetVector)
     });
+
     socket.on('disconnect', function() {
       socket.broadcast.emit('player:leave', id);
     });
