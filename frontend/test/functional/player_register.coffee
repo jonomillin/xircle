@@ -31,9 +31,14 @@ c.server.then ->
     @test.assertTitle 'Xircle Remote', 'Xircle remote title'
 
   c.remote.then ->
-    @wait 1000, ->
+    @wait 200, ->
       c.server.debugHTML('#num_players')
       c.server.test.assertSelectorHasText '#num_players', '1 players', "Expected one player after registered"
+
+  c.remote.thenOpen urls.base, ->
+    @wait 200, ->
+      c.server.debugHTML('#num_players')
+      c.server.test.assertSelectorHasText '#num_players', '0 players', "Expected no player after player left"
 
   c.remote.run ->
     console.log 'done'

@@ -7,7 +7,7 @@ define [], () ->
       @bindChanges()
 
     bindChanges: ->
-      @player_manager.on 'player:registered', (player, n) => @renderPlayerCount(n)
+      @player_manager.on 'change:player_count', (n) => @renderPlayerCount(n)
 
     renderPlayerCount: (player_count) =>
       @output.display player_count: "#{player_count} players"

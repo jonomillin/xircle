@@ -16,31 +16,29 @@ var playerId = 0;
 
 registerPlayer = function() {
   playerId++
-  if(gamespace) {
-    gamespace.emit('player:new', playerId);
-  } else {
-    players.push(playerId);
-  }
   return playerId
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.on('gamespace:register', function(data) {
-    gamespace = socket;
-    gamespace.emit('gamespace:register:ack')
-    players.forEach(function(playerId) {
-      gamespace.emit('player:new', playerId);
-    });
-  });
+  //socket.on('gamespace:register', function(data) {
+  //  gamespace = socket;
+  //  gamespace.emit('gamespace:register:ack')
+  //  players.forEach(function(playerId) {
+  //    gamespace.emit('player:new', playerId);
+  //  });
+  //});
 
   socket.on('player:register', function(data) {
-    socket.broadcast.emit('player:register', data);
-    console.log('Registered');
     var id = registerPlayer();
+    console.log('Registered', id);
+    io.sockets.emit('player:register', id, {});
     socket.on('move', function(pos) {
       if (gamespace) { 
         gamespace.emit('player:'+id+':move', pos);
       }
+    });
+    socket.on('disconnect', function() {
+      socket.broadcast.emit('player:leave', id);
     });
   });
 });

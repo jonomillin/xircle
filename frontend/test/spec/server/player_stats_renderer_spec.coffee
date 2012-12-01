@@ -10,7 +10,7 @@ define ['server/player_stats_renderer', 'shared/micro_event'], (PlayerStatsRende
 
       new PlayerStatsRenderer(player_manager: manager, output: target)
 
-      manager.emit('player:registered', {}, 1)
+      manager.emit('change:player_count', 1)
       
       expect(mock.verify()).to.be.true
 

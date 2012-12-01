@@ -1,23 +1,32 @@
-define ['server/player', 'shared/micro_event'], (Player, Event) ->
+define ['server/player', 'shared/micro_event', 'underscore'], (Player, Event, _) ->
 
   class PlayerManager
     constructor: (options) ->
       @socket = options.socket
-      @players = []
+      @players = {}
 
       @bindToSocket()
 
     bindToSocket: ->
-      @socket.on 'player:register', @onNewPlayer
+      @socket.on 'player:register', @onPlayerRegister
+      @socket.on 'player:leave', @onPlayerLeave
 
-    onNewPlayer: (player_opts) =>
-      console.log 'onnew'
+    onPlayerRegister: (player_id, player_opts) =>
+      console.log 'player register'
       player = new Player(player_opts)
-      @players.push player
-      @emit('player:registered', player, @playerCount())
+      @players[player_id] = player
+      @emitPlayerCount()
+    
+    onPlayerLeave: (player_id, player_opts) =>
+      if player = @players[player_id]
+        delete(@players[player_id])
+        @emitPlayerCount()
       
+    emitPlayerCount: ->
+      @emit 'change:player_count', @playerCount()
+
     playerCount: ->
-      @players.length
+      _.keys(@players).length
 
   Event.mixin(PlayerManager)
 
