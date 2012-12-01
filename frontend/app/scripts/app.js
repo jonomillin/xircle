@@ -25,6 +25,7 @@ define([
     manager.on('player:registered', function(player) { 
       console.log(player)
       world.registerObject(player.world_object)
+      player.moveTo([ 50, 50 ])
     });
 
 

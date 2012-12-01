@@ -16,6 +16,7 @@ var playerId = 0;
 
 registerPlayer = function() {
   playerId++
+  console.log('Registered', playerId);
   return playerId
 }
 
@@ -28,6 +29,9 @@ io.sockets.on('connection', function (socket) {
   //  });
   //});
 
+  socket.on('debug', function(data) {
+    console.log('Debug', data)
+  });
   socket.on('player:register', function(data) {
     var id = registerPlayer();
     console.log('Registered', id);

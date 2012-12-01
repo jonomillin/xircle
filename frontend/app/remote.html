@@ -14,11 +14,19 @@
 
         
         <link rel="stylesheet" href="styles/main.css">
-        <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
 
+    <div id='touchy' style='width: 400px; height: 400px; margin-left: 100px; margin-top: 100px; background: red;'>
+      
+    </div>
+
     <!-- build:js scripts/amd-app.js -->
+    <script>
+      window.onerror = function(e) {
+        alert(e);
+      }
+    </script>
     <script src="scripts/require.config.js"></script>
     <script data-main="scripts/remote" src="scripts/vendor/require.js"></script>
     <!-- endbuild -->
