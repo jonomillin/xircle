@@ -4,7 +4,8 @@ window.require = ({
   paths: {
     underscore: '/components/underscore/underscore',
     jquery: '/components/jquery/jquery',
-    socketio: '/scripts/socket.io'
+    socketio: '/scripts/socket.io',
+    easel: '/scripts/easel'
   },
 
   shim: {
@@ -19,6 +20,10 @@ window.require = ({
     'socketio': {
       deps: [],
       exports: 'io'
+    },
+    'easel': {
+      deps: [],
+      exports: 'createjs'
     }
   }
 })
