@@ -19,7 +19,11 @@ define([
     ball = new WorldObject({position: [50,50], velocity: [0.1,-0.2]})
     world = new GameWorld
     world.registerObject(ball)
-    world_renderer = new GameWorldRenderer({width: 500, height: 500, canvas: $('canvas')[0]})
+    world_renderer = new GameWorldRenderer({
+      width: $('canvas').width(),
+      height: $('canvas').height(),
+     canvas: $('canvas')[0]
+    })
     world_renderer.listen(world)
 
     manager.on('player:registered', function(player) { 

@@ -34,15 +34,17 @@ define ['client/touch_manager', 'jquery'], (TouchManager, $) ->
           { screenX: 50, screenY: 60 }
         ]
 
-      move_evt =
-        touches: [
-          { screenX: 60, screenY: 50 }
+      move_evts =
+        [
+          { touches: [ { screenX: 60, screenY: 50 } ] }
+          { touches: [ { screenX: 65, screenY: 45 } ] }
         ]
 
       manager.onTouchStart(start_evt)
-      manager.onTouchMove(move_evt)
+      move_evts.forEach( (evt) -> manager.onTouchMove(evt) )
 
       spy.called.should.be.true
       spy.calledWith({ px: [10, -10], normalized: [0.1, -0.2] }).should.be.true
+      spy.calledWith({ px: [5, -5], normalized: [0.05, -0.1] }).should.be.true
 
   

@@ -22,11 +22,11 @@ define ['shared/micro_event', 'jquery'], (Event, $) ->
 
     bindHandlers: =>
       if @el
+        document.addEventListener('touchmove', ((e)->e.preventDefault()), false)
         @el.addEventListener('touchstart', @onTouchStart)
         @el.addEventListener('touchmove', @onTouchMove)
 
     onTouchStart: (evt) =>
-      console.log 'touchstart'
       @lastTouchPos = @getTouchPos(evt)
 
     onTouchMove: (evt) =>
@@ -35,6 +35,7 @@ define ['shared/micro_event', 'jquery'], (Event, $) ->
         pos[0] - @lastTouchPos[0],
         pos[1] - @lastTouchPos[1],
       ]
+      @lastTouchPos = pos
       @emitPos(delta)
 
     getTouchPos: (evt) ->
