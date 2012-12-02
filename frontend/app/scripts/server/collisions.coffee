@@ -2,43 +2,45 @@ define ['server/vector'], (Vector) ->
   Collisions = {}
   
   class Collisions.CircleWithAntiCircle
-    constructor: (subject, antiCircle) ->
+    constructor: (subject, collider) ->
       @subject = subject
-      @antiCircle = antiCircle
+      @collider = collider
 
     collide: ->
-      if @doesCollide()
-        @onCollision()
-        @fixOverlap()
+      @onCollision() if @doesCollide()
+
+    collisionNormal: ->
+      Vector.scale(-1, Vector.normalize(@separationVector()))
 
     separationVector: ->
-      Vector.subtract(@subject.position, @antiCircle.position)
+      Vector.subtract(@subject.position, @collider.position)
 
     overlapDistance: ->
-      Vector.length(@separationVector()) + @subject.radius - @antiCircle.radius
+      Vector.length(@separationVector()) + @subject.radius - @collider.radius
 
     doesCollide: ->
       @overlapDistance() >= 0
 
     onCollision: ->
-      normal = Vector.normalize(@separationVector())
+      @fixVelocity()
+      @fixOverlap()
+
+    fixVelocity: ->
+      normal = @collisionNormal()
       @subject.setVelocity Vector.reflect( @subject.velocity, normal)
 
     fixOverlap: ->
-      normal = Vector.normalize(@separationVector())
-      correctionVector = Vector.scale(-1*@overlapDistance(), normal)
+      normal = @collisionNormal()
+      correctionVector = Vector.scale(@overlapDistance(), normal)
       @subject.moveBy correctionVector
 
-  class Collisions.CircleWithCircle
-    constructor: (subject, circle) ->
-      @subject = subject
-      @circle = circle
+  class Collisions.CircleWithCircle extends Collisions.CircleWithAntiCircle
+    collisionNormal: ->
+      Vector.normalize(@separationVector())
 
-    collide: ->
-      sepVector = Vector.subtract(@circle.position, @subject.position)
-      if Vector.length(sepVector) < @circle.radius + @subject.radius
-        normal = Vector.normalize(sepVector)
-        @subject.velocity = Vector.reflect( @subject.velocity, normal)
+    overlapDistance: ->
+      @subject.radius + @collider.radius - Vector.length(@separationVector())
 
+  
   return Collisions
 
