@@ -19,7 +19,7 @@ define([
 
     rink = new Rink({object_attrs: { radius: 250, position: [250,250], anti: true, immovable: true}})
 
-    ball = new WorldObject({position: [250,250], velocity: [0.1,-0.2]})
+    ball = new WorldObject({position: [250,250], velocity: [0.2,0]})
     world = new GameWorld
     world.registerObject(ball)
     world.registerObject(rink.world_object)
@@ -34,10 +34,16 @@ define([
     world_renderer.listen(world)
 
     manager.on('player:registered', function(player) { 
-      console.log(player)
+      player_rink = new Rink({object_attrs: { radius: 50, position: [500,250], anti: true, immovable: true}})
+
       world.registerObject(player.world_object)
+      world.registerObject(player_rink.world_object)
+
       world.registerCollision( new Collisions.CircleWithCircle(ball, player.world_object));
       world.registerCollision( new Collisions.CircleWithAntiCircle(player.world_object, rink.world_object));
+
+      world.registerCollision( new Collisions.CircleWithAntiCircle(player.world_object, player_rink.world_object) )
+
       player.moveTo([ 250, 250 ])
     });
 
