@@ -7,6 +7,8 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
       shape = options.shape || Shapes.Circle.draw(radius: @radius)
       @graphic = new Graphic(shape)
 
+      @anti = options.anti || false
+
     step: (timestep) ->
       @moveByTimestep(timestep)
 
@@ -22,3 +24,6 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
 
     moveByTimestep: (timestep) ->
       @moveBy Vector.scale( timestep, @velocity )
+
+    setVelocity: ( velocityVector) ->
+      @velocity = velocityVector

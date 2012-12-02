@@ -25,3 +25,8 @@ define ['server/world_object'], (WorldObject) ->
       obj.moveTo( [20,30] )
       obj.position.should.eql [20,30]
       
+    it 'can have it\'s velocity set', ->
+      obj = new WorldObject( position: [5,10] )
+      obj.setVelocity( [10, -10] )
+      obj.velocity.should.eql [10,-10]
+

@@ -17,7 +17,6 @@ define ['server/game_world'], (GameWorld) ->
       mock.verify().should.be.true
 
     it 'emits `stepped` at each timestep', ->
-
       spy = sinon.spy()
 
       world = new GameWorld
@@ -25,4 +24,18 @@ define ['server/game_world'], (GameWorld) ->
       world.step(123)
 
       spy.called.should.be.true
-      
+    
+    describe 'collisions', ->
+      it 'should register collisions', ->
+        collision = {id: 1}
+        world = new GameWorld
+        world.registerCollision( collision )
+        world.collisions[0].should.equal collision
+
+      it 'runs the collisions at each timestep', ->
+        collision = { collide: -> true }
+        mock = sinon.mock(collision).expects('collide')
+        world = new GameWorld
+        world.registerCollision(collision)
+        world.step(123)
+        mock.verify().should.be.true

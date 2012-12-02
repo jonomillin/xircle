@@ -1,6 +1,7 @@
 define([
   'tests/spec/test/spec/client/player_spec',
 'tests/spec/test/spec/client/touch_manager_spec',
+'tests/spec/test/spec/server/collisions_spec',
 'tests/spec/test/spec/server/game_world_renderer_spec',
 'tests/spec/test/spec/server/game_world_spec',
 'tests/spec/test/spec/server/graphic',

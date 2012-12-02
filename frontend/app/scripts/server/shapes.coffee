@@ -11,7 +11,7 @@ define ['easel'], (easel) ->
 
       @graphics = new Graphics()
       @graphics.beginStroke(Graphics.getRGB(@color))
-      @graphics.drawCircle(-1*radius, -1*radius, radius)
+      @graphics.drawCircle(0, 0, radius)
       @graphics
       new Shape(@graphics)
     
