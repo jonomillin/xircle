@@ -1,6 +1,9 @@
-define ['server/game_world'], (GameWorld) ->
+define ['mixins/acts_as_object_group'], (ActsAsObjectGroup) ->
+  class GameWorld
 
-  describe 'server/GameWorld', ->
+  ActsAsObjectGroup.mixin(GameWorld)
+
+  describe 'server/ActsAsObjectGroup', ->
 
     it 'accepts physical objects', ->
       stub = sinon.stub()

@@ -1,27 +1,8 @@
-define ['shared/micro_event'], (Event) ->
+define ['shared/micro_event', 'mixins/acts_as_object_group'], (Event, ActsAsObjectGroup) ->
 
   class GameWorld
-    constructor: ->
-      @objects = []
-      @collisions = []
 
-    registerCollision: (collision) ->
-      @collisions.push collision
-
-    registerObject: (object) ->
-      @objects.push object
-
-    eachObject: (cb) ->
-      @objects.forEach(cb)
-
-    eachCollision: (cb) ->
-      @collisions.forEach(cb)
-
-    step: (timestep) ->
-      @eachObject (o) -> o.step(timestep)
-      @eachCollision (o) -> o.collide()
-      @emit('stepped')
-
+  ActsAsObjectGroup.mixin(GameWorld)
   Event.mixin(GameWorld)
 
   GameWorld

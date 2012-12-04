@@ -13,10 +13,10 @@ define ['server/vector'], (Vector) ->
       Vector.scale(-1, Vector.normalize(@separationVector()))
 
     separationVector: ->
-      Vector.subtract(@subject.position, @collider.position)
+      Vector.subtract(@subject.getPosition(), @collider.getPosition())
 
     overlapDistance: ->
-      Vector.length(@separationVector()) + @subject.radius - @collider.radius
+      Vector.length(@separationVector()) + @subject.getRadius() - @collider.getRadius()
 
     doesCollide: ->
       @overlapDistance() >= 0
@@ -27,7 +27,7 @@ define ['server/vector'], (Vector) ->
 
     fixVelocity: ->
       normal = @collisionNormal()
-      @subject.setVelocity Vector.reflect( @subject.velocity, normal)
+      @subject.setVelocity Vector.reflect( @subject.getVelocity(), normal)
 
     fixOverlap: ->
       normal = @collisionNormal()
@@ -39,7 +39,7 @@ define ['server/vector'], (Vector) ->
       Vector.normalize(@separationVector())
 
     overlapDistance: ->
-      @subject.radius + @collider.radius - Vector.length(@separationVector())
+      @subject.getRadius() + @collider.getRadius() - Vector.length(@separationVector())
 
   
   return Collisions

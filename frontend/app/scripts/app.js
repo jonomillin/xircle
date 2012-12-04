@@ -8,9 +8,11 @@ define([
   'server/game_world',
   'server/game_world_renderer',
   'server/world_object',
+  'server/arc_object',
   'server/rink',
-  'server/collisions'
-], function($, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, Rink, Collisions) {
+  'server/collisions',
+  'server/goal'
+], function($, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Collisions, Goal) {
   $(function() {
 
     manager = new PlayerManager({socket: socket});
@@ -22,9 +24,9 @@ define([
     ball = new WorldObject({position: [250,250], velocity: [0.2,0]})
     world = new GameWorld
     world.registerObject(ball)
-    world.registerObject(rink.world_object)
+    world.registerObject(rink)
     
-    world.registerCollision( new Collisions.CircleWithAntiCircle(ball, rink.world_object) )
+    world.registerCollision( new Collisions.CircleWithAntiCircle(ball, rink) )
 
     world_renderer = new GameWorldRenderer({
       width: $('canvas').width(),
@@ -34,15 +36,10 @@ define([
     world_renderer.listen(world)
 
     manager.on('player:registered', function(player) { 
-      player_rink = new Rink({object_attrs: { radius: 50, position: [500,250], anti: true, immovable: true}})
+      player_goal = new Goal({ rink: rink, angle: 45, goalmouthAngle: 90})
 
-      world.registerObject(player.world_object)
-      world.registerObject(player_rink.world_object)
-
-      world.registerCollision( new Collisions.CircleWithCircle(ball, player.world_object));
-      world.registerCollision( new Collisions.CircleWithAntiCircle(player.world_object, rink.world_object));
-
-      world.registerCollision( new Collisions.CircleWithAntiCircle(player.world_object, player_rink.world_object) )
+      world.registerObject(player)
+      world.registerObject(player_goal)
 
       player.moveTo([ 250, 250 ])
     });

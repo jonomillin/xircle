@@ -1,12 +1,10 @@
-define ['server/world_object'], (WorldObject) ->
+define ['server/world_object', 'server/wraps_world_object'], (WorldObject, WrapsWorldObject) ->
 
   class Player
     constructor: (attrs = {}) ->
       @name = attrs.name
       @world_object ||= new WorldObject()
       
-    moveTo: (args...) => @world_object.moveTo(args...)
-    moveBy: (args...) => @world_object.moveBy(args...)
-    
+  WrapsWorldObject.mixin(Player)
       
   return Player
