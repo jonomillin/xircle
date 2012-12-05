@@ -1,4 +1,4 @@
-define ['server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink'], (Utils, ActsAsObjectGroup, ArcObject, Rink) ->
+define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink', 'server/collisions'], ($,Utils, ActsAsObjectGroup, ArcObject, Rink, Collisions) ->
   class PlayerRink extends Rink
 
   class Goal
@@ -6,21 +6,41 @@ define ['server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'ser
       @rink = options.rink
       @angle = options.angle
       @goalmouthAngle = options.goalmouthAngle
+
+      @parts = {}
+      @player = options.player
+      @buildGoal()
+
+    setupBallCollisions: (ball) ->
+      @registerCollision new Collisions.CircleWithAntiArc ball, @parts.goalMouth, ->
+        ball.moveTo [250,250]
+        $('body').append('score')
+        
+      @registerCollision new Collisions.CircleWithCircle(ball, @player)
+
+    setupPlayerCollisions:  ->
+      @registerCollision new Collisions.CircleWithAntiCircle(@player, @parts.playerRink)
+      @registerCollision new Collisions.CircleWithAntiCircle(@player, @rink)
+
+    buildGoal: ->
       @buildGoalmouth()
       @buildPlayerRink()
+      @setupPlayerCollisions()
 
     buildGoalmouth: ->
-      @registerObject new ArcObject
+      @parts.goalMouth = new ArcObject
         radius: @rinkRadius()
         position: @rinkCenter()
         arcAngles: [@angle - @goalmouthAngle/2, @angle + @goalmouthAngle/2]
         color: [255,0,0]
+      @registerObject @parts.goalMouth
 
     buildPlayerRink: ->
-      @registerObject new Rink
+      @parts.playerRink = new Rink
         object_attrs: 
           position: @calculatePlayerRinkCenter()
-          radius: 50
+          radius: 100
+      @registerObject @parts.playerRink
 
     rinkCenter: -> @rink.world_object.position
     rinkRadius: -> @rink.world_object.radius

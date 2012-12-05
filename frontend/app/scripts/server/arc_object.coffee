@@ -5,3 +5,5 @@ define ['server/world_object', 'server/shapes'], (WorldObject, Shapes) ->
 
     extractExtraOptions: (options) ->
       @arcAngles = options.arcAngles
+
+    getArcAngles: -> @arcAngles

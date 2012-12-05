@@ -21,7 +21,7 @@ define([
 
     rink = new Rink({object_attrs: { radius: 250, position: [250,250], anti: true, immovable: true}})
 
-    ball = new WorldObject({position: [250,250], velocity: [0.2,0]})
+    ball = new WorldObject({position: [250,250], velocity: [0.5,0], radius: 20})
     world = new GameWorld
     world.registerObject(ball)
     world.registerObject(rink)
@@ -35,11 +35,15 @@ define([
     })
     world_renderer.listen(world)
 
+    deg = 0
     manager.on('player:registered', function(player) { 
-      player_goal = new Goal({ rink: rink, angle: 45, goalmouthAngle: 90})
+      player_goal = new Goal({ rink: rink, player: player, angle: deg, goalmouthAngle: 35})
+      deg += 180
 
+      player_goal.setupBallCollisions(ball)
       world.registerObject(player)
       world.registerObject(player_goal)
+
 
       player.moveTo([ 250, 250 ])
     });

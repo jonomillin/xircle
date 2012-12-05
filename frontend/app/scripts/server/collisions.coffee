@@ -1,10 +1,11 @@
-define ['server/vector'], (Vector) ->
+define ['server/vector', 'server/utils'], (Vector, Utils) ->
   Collisions = {}
   
   class Collisions.CircleWithAntiCircle
-    constructor: (subject, collider) ->
+    constructor: (subject, collider, onCollision=->) ->
       @subject = subject
       @collider = collider
+      @collisionCallback = onCollision
 
     collide: ->
       @onCollision() if @doesCollide()
@@ -19,11 +20,12 @@ define ['server/vector'], (Vector) ->
       Vector.length(@separationVector()) + @subject.getRadius() - @collider.getRadius()
 
     doesCollide: ->
-      @overlapDistance() >= 0
+      @overlapDistance() > 0
 
     onCollision: ->
       @fixVelocity()
       @fixOverlap()
+      @collisionCallback()
 
     fixVelocity: ->
       normal = @collisionNormal()
@@ -41,6 +43,13 @@ define ['server/vector'], (Vector) ->
     overlapDistance: ->
       @subject.getRadius() + @collider.getRadius() - Vector.length(@separationVector())
 
+  class Collisions.CircleWithAntiArc extends Collisions.CircleWithAntiCircle
+    subjectAngle: -> Vector.angleDeg(@separationVector())
+    doesCollide: ->
+      s = super
+      angle = @subjectAngle()
+      arcAngles = @collider.getArcAngles()
+      super && Utils.angleInRange(angle, arcAngles)
   
   return Collisions
 

@@ -1,4 +1,4 @@
-define ->
+define ['server/utils'], (Utils) ->
   Vector =
     dotProduct: (v1, v2) ->
       v1[0]*v2[0] + v1[1]*v2[1]
@@ -8,6 +8,15 @@ define ->
         v[0]*s,
         v[1]*s
       ]
+
+    angleDeg: (v) ->
+      Utils.radiansToDegrees(Vector.angleRad(v))
+
+    angleRad: (v) ->
+      rad = -1*Math.atan2(v[1], v[0])
+      if rad < 0
+        rad = 2*Math.PI + rad
+      rad
 
     length: (v) ->
       Math.pow(

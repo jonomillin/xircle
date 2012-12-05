@@ -3,7 +3,7 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
     constructor: (options={}) ->
       @position = options.position || [0,0]
       @velocity = options.velocity || [0,0]
-      @radius = options.radius || 5
+      @radius = options.radius || 20
       @color = options.color || [0,0,0]
       @extractExtraOptions(options)
 
