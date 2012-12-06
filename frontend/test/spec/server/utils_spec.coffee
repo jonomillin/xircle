@@ -49,4 +49,14 @@ define ['server/utils'], (Utils) ->
       it 'should be true if in a wrapped range (positives)', ->
         Utils.angleInRange(5, [350,10]).should.be.true
         
+    describe 'randomInRange', ->
+      beforeEach -> @randomStub = sinon.stub(Math, 'random')
+      afterEach -> @randomStub.restore()
 
+      it 'is the upper end when random is 1', ->
+        @randomStub.returns(1)
+        Utils.randomInRange(-5,5).should.equal 5
+
+      it 'is the lower end when random is 0', ->
+        @randomStub.returns(0)
+        Utils.randomInRange(-5,5).should.equal -5

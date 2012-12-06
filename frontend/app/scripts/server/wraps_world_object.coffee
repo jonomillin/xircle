@@ -7,6 +7,7 @@ define ['mixins/delegator'], (Delegator) ->
         'setVelocity', 'getVelocity',
         'setPosition', 'getPosition',
         'getRadius',
+        'getRoughness',
         'step', 'renderTo'
       ], to: 'world_object'}
 

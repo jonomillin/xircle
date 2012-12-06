@@ -2,7 +2,9 @@ define ['server/world_object', 'server/wraps_world_object'], (WorldObject, Wraps
 
   class Rink
     constructor: (attrs = {}) ->
-      @world_object ||= new WorldObject( attrs.object_attrs || {})
+      @world_object ||= new WorldObject( attrs )
+
+    
   
   WrapsWorldObject.mixin(Rink)
 

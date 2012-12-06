@@ -45,7 +45,6 @@ define ['shared/micro_event', 'jquery'], (Event, $) ->
     emitPos: (posVector) =>
       data = { px: posVector }
       data.normalized = @elementPositionHandler.normalize(data.px)
-      console.log data
       @emit('moved_by', data)
 
   Event.mixin(DeltaTouchManager)

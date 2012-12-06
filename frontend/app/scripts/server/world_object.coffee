@@ -5,6 +5,7 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
       @velocity = options.velocity || [0,0]
       @radius = options.radius || 20
       @color = options.color || [0,0,0]
+      @roughness = options.roughness || false
       @extractExtraOptions(options)
 
       shape = options.shape || @defaultShape()
@@ -24,8 +25,8 @@ define ['server/vector', 'server/graphic', 'server/shapes'], (Vector, Graphic, S
       if @graphic
         @graphic.renderTo(stage, @position)
 
+    getRoughness: -> @roughness
     getRadius: -> @radius
-
     getPosition: -> @position
     moveTo: ( posVec ) ->
       @position = posVec

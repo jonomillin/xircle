@@ -10,7 +10,7 @@ define ['server/collisions'], (Collisions) ->
       @expectSubjectVelocitySetTo = (newV) -> @mock.expects('setVelocity').withArgs(newV)
       @expectSubjectMovedBy = (offsetP) -> @mock.expects('moveBy').withArgs(offsetP)
 
-    set -> @subject = { position: [50,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 10), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
+    set -> @subject = { position: [50,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 11), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
     set -> @antiCircle = { getPosition: (-> [50,50]), getRadius: (-> 50), getVelocity: (-> [0,0]) }
 
     set -> @collision = new Collisions.CircleWithAntiCircle(@subject, @antiCircle)
@@ -54,18 +54,18 @@ define ['server/collisions'], (Collisions) ->
           @mock.expects('moveBy').never()
 
         it 'adjusts if partially overlapping horizontally', ->
-          @subjectStart position: [91,50]
+          @subjectStart position: [90,50]
           @expectSubjectMovedBy [-1, 0]
 
         it 'adjusts if completely overlapping horizontally', ->
           @subjectStart position: [120,50]
-          @expectSubjectMovedBy [-30, 0]
+          @expectSubjectMovedBy [-31, 0]
 
         it 'adjusts if partially overlapping vertically', ->
-          @subjectStart position: [50,91]
+          @subjectStart position: [50,90]
           @expectSubjectMovedBy [0, -1]
 
         it 'adjusts if completely overlapping horizontally', ->
           @subjectStart position: [50,120]
-          @expectSubjectMovedBy [0, -30]
+          @expectSubjectMovedBy [0, -31]
 

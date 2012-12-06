@@ -30,6 +30,16 @@ define ['server/vector', 'server/utils'], (Vector, Utils) ->
     fixVelocity: ->
       normal = @collisionNormal()
       @subject.setVelocity Vector.reflect( @subject.getVelocity(), normal)
+      @rotateForRoughness(@collider.getRoughness()) if @collider.getRoughness()
+
+    rotateForRoughness: (roughness) ->
+      random = Utils.randomInRange(-1*roughness, roughness)   
+      @subject.setVelocity(
+        Vector.rotateRad(
+          @subject.getVelocity()
+          random
+        )
+      )
 
     fixOverlap: ->
       normal = @collisionNormal()

@@ -37,9 +37,8 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
 
     buildPlayerRink: ->
       @parts.playerRink = new Rink
-        object_attrs: 
-          position: @calculatePlayerRinkCenter()
-          radius: 100
+        position: @calculatePlayerRinkCenter()
+        radius: 100
       @registerObject @parts.playerRink
 
     rinkCenter: -> @rink.world_object.position

@@ -14,11 +14,25 @@ var players = [];
 var gamespace;
 var playerId = 0;
 
-registerPlayer = function() {
+var registerPlayer = function() {
   playerId++
-  console.log('Registered', playerId);
   return playerId
 }
+
+var myIp = function() {
+  var os = require('os');
+  var ifaces = os.networkInterfaces();
+  
+  var ips = [];
+  for (var device in ifaces) {
+    ifaces[device].forEach(function(details) {
+      if (details.family == 'IPv4' && details.address != '127.0.0.1') {
+        ips.push(details.address);
+      }
+    });
+  }
+  return ips;
+};
 
 io.sockets.on('connection', function (socket) {
   //socket.on('gamespace:register', function(data) {
@@ -28,10 +42,12 @@ io.sockets.on('connection', function (socket) {
   //    gamespace.emit('player:new', playerId);
   //  });
   //});
+  socket.emit('ip', myIp()[0]);
 
   socket.on('debug', function(data) {
     console.log('Debug', data)
   });
+
   socket.on('player:register', function(data) {
     var id = registerPlayer();
     console.log('Registered', id);
