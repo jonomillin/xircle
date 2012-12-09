@@ -1,4 +1,4 @@
-define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink', 'server/collisions'], ($,Utils, ActsAsObjectGroup, ArcObject, Rink, Collisions) ->
+define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink', 'server/collisions', 'server/shapes'], ($,Utils, ActsAsObjectGroup, ArcObject, Rink, Collisions, Shapes) ->
   class PlayerRink extends Rink
 
   class Goal
@@ -37,6 +37,7 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
 
     buildPlayerRink: ->
       @parts.playerRink = new Rink
+        shape: Shapes.CircleWater
         position: @calculatePlayerRinkCenter()
         radius: 100
       @registerObject @parts.playerRink

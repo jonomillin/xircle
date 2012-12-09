@@ -1,4 +1,5 @@
-define ['mixins/mixin', 'shared/micro_event'], (Mixin, Event) ->
+define ['mixins/mixin', 'shared/micro_event', 'underscore'], (Mixin, Event, _) ->
+
   class ActsAsObjectGroup extends Mixin
     initObjects: -> @objects ||= []
     initCollisions: -> @collisions ||= []
@@ -9,6 +10,10 @@ define ['mixins/mixin', 'shared/micro_event'], (Mixin, Event) ->
     eachCollision: (cb) ->
       @initCollisions() unless @collisions
       @collisions.forEach(cb)
+
+    registerObjectBefore: (object, before) ->
+      before_index = _.indexOf(@objects, before)
+      @objects.splice(0, before_index, object)
 
     registerObject: (object) ->
       @initObjects()

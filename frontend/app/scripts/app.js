@@ -10,12 +10,16 @@ define([
   'server/world_object',
   'server/arc_object',
   'server/rink',
+  'server/ball',
   'server/collisions',
-  'server/goal'
-], function($, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Collisions, Goal) {
+  'server/goal',
+  'server/shapes',
+  'server/player',
+
+], function($, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Ball, Collisions, Goal, Shapes, Player) {
   $(function() {
 
-    socket.on('ip', function(ip) { alert(ip)})
+    socket.on('ip', function(ip) { console.log(ip+':3501')})
 
     manager = new PlayerManager({socket: socket});
     template = new Template($('#stats'));
@@ -23,10 +27,14 @@ define([
 
     rink = new Rink({ radius: 250, position: [250,250], anti: true, roughness: 0.05 })
 
-    ball = new WorldObject({position: [250,250], velocity: [0.5,0], radius: 20})
+    ball = new Ball({
+      position: [250,250],
+      velocity: [0.4,0],
+      radius: 20
+    })
     world = new GameWorld
-    world.registerObject(ball)
     world.registerObject(rink)
+    world.registerObject(ball)
     
     world.registerCollision( new Collisions.CircleWithAntiCircle(ball, rink) )
 
@@ -38,16 +46,15 @@ define([
     world_renderer.listen(world)
 
     deg = 0
+
     manager.on('player:registered', function(player) { 
       player_goal = new Goal({ rink: rink, player: player, angle: deg, goalmouthAngle: 35})
-      deg += 61
+      deg += 60
 
       player_goal.setupBallCollisions(ball)
+      world.registerObjectBefore(player_goal, rink)
       world.registerObject(player)
-      world.registerObject(player_goal)
 
-
-      player.moveTo([ 250, 250 ])
     });
 
 

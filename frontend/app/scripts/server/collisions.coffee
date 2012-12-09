@@ -44,7 +44,7 @@ define ['server/vector', 'server/utils'], (Vector, Utils) ->
     fixOverlap: ->
       normal = @collisionNormal()
       correctionVector = Vector.scale(@overlapDistance(), normal)
-      @subject.moveBy correctionVector
+      @subject.moveBy correctionVector, true
 
   class Collisions.CircleWithCircle extends Collisions.CircleWithAntiCircle
     collisionNormal: ->

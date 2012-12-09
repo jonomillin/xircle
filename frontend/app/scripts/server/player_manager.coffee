@@ -12,6 +12,7 @@ define ['server/player', 'shared/micro_event', 'underscore'], (Player, Event, _)
       @socket.on 'player:move_by', @onPlayerMoveBy
 
     onPlayerRegister: (player_id, player_opts) =>
+      player_opts.id = player_id
       player = new Player(player_opts)
       @players[player_id] = player
       @emitPlayerCount()

@@ -1,10 +1,10 @@
 define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (WorldObject, WrapsWorldObject, Shapes) ->
 
-  class Rink
+  class Ball
     constructor: (attrs = {}) ->
-      attrs.shape ||= Shapes.CircleIce
+      #attrs.shape = Shapes.Snowman
       @world_object ||= new WorldObject( attrs )
   
-  WrapsWorldObject.mixin(Rink)
+  WrapsWorldObject.mixin(Ball)
 
-  Rink
+  Ball
