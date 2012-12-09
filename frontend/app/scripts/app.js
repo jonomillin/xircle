@@ -1,4 +1,5 @@
 define([
+  'underscore',
   'jquery',
   'easel',
   'shared/socket',
@@ -15,8 +16,10 @@ define([
   'server/goal',
   'server/shapes',
   'server/player',
+  'server/vector',
+  'server/sounds'
 
-], function($, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Ball, Collisions, Goal, Shapes, Player) {
+], function(_, $, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Ball, Collisions, Goal, Shapes, Player, Vector, Sounds) {
   $(function() {
 
     socket.on('ip', function(ip) { console.log(ip+':3501')})
@@ -25,13 +28,38 @@ define([
     template = new Template($('#stats'));
     renderer = new Renderer({player_manager: manager, output: template});
 
-    rink = new Rink({ radius: 250, position: [250,250], anti: true, roughness: 0.05 })
+    var center = [500,384]
+    rink = new Rink({ radius: 250, position: center, anti: true, roughness: 0.05 })
 
     ball = new Ball({
-      position: [250,250],
-      velocity: [0.4,0],
+      position: center,
+      velocity: [0,0],
       radius: 20
     })
+
+    window.Game = {
+      wait: function() {
+        ball.moveTo(center);
+        ball.setVelocity([0,0]);
+      },
+      spinStart: function() {
+        Game.wait();
+
+        var angle = 0;
+        var interval = setInterval(function() {
+          angle = new Date().getTime() % 360;
+          ball.setAngle(angle);
+        }, 1);
+
+        window.Sounds = Sounds
+        setTimeout(function() {
+          clearInterval(interval);
+          //ball.setVelocity(Vector.rotateDeg([0.4,0], angle));
+          ball.setVelocity(Vector.rotateDeg([0.4,0], 0));
+        }, 2000 + Math.random()*2000);
+      },
+    }
+
     world = new GameWorld
     world.registerObject(rink)
     world.registerObject(ball)
@@ -45,8 +73,9 @@ define([
     })
     world_renderer.listen(world)
 
-    deg = 0
+    var deg = 0
 
+    var player_count = 0;
     manager.on('player:registered', function(player) { 
       player_goal = new Goal({ rink: rink, player: player, angle: deg, goalmouthAngle: 35})
       deg += 60
@@ -55,6 +84,10 @@ define([
       world.registerObjectBefore(player_goal, rink)
       world.registerObject(player)
 
+      player_count ++ 
+      if (player_count == 1) {
+        Game.spinStart();
+      }
     });
 
 

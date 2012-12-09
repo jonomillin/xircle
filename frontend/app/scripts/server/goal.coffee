@@ -1,4 +1,4 @@
-define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink', 'server/collisions', 'server/shapes'], ($,Utils, ActsAsObjectGroup, ArcObject, Rink, Collisions, Shapes) ->
+define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_object', 'server/rink', 'server/collisions', 'server/shapes', 'server/sounds', 'server/score'], ($,Utils, ActsAsObjectGroup, ArcObject, Rink, Collisions, Shapes, Sounds, Score) ->
   class PlayerRink extends Rink
 
   class Goal
@@ -10,13 +10,18 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
       @parts = {}
       @player = options.player
       @buildGoal()
+      @score = 0
 
-    setupBallCollisions: (ball) ->
-      @registerCollision new Collisions.CircleWithAntiArc ball, @parts.goalMouth, ->
-        ball.moveTo [250,250]
-        $('body').append('score')
+    setupBallCollisions: (ball) =>
+      @registerCollision new Collisions.CircleWithAntiArc ball, @parts.goalMouth, =>
+        snds = [Sounds.cry1, Sounds.cry2, Sounds.cry3]
+        snds[Math.floor(Math.random()*3)].play()
+        window.Game.spinStart()
+        @parts.score.lostPoint()
         
-      @registerCollision new Collisions.CircleWithCircle(ball, @player)
+      @registerCollision new Collisions.CircleWithCircle ball, @player, =>
+        snds = [Sounds.cough1, Sounds.cough2, Sounds.cough3]
+        snds[Math.floor(Math.random()*3)].play()
 
     setupPlayerCollisions:  ->
       @registerCollision new Collisions.CircleWithAntiCircle(@player, @parts.playerRink)
@@ -26,6 +31,7 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
       @buildGoalmouth()
       @buildPlayerRink()
       @setupPlayerCollisions()
+      @buildScore()
 
     buildGoalmouth: ->
       @parts.goalMouth = new ArcObject
@@ -41,14 +47,33 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
         position: @calculatePlayerRinkCenter()
         radius: 100
       @registerObject @parts.playerRink
+    
+    buildScore: ->
+      @parts.score = new Score({
+        pos: @calculateTextPosition()
+      })
+      @registerObject @parts.score
 
     rinkCenter: -> @rink.world_object.position
-    rinkRadius: -> @rink.world_object.radius
+    rinkRadius: ->
+      @rink.world_object.radius - 1
 
     calculatePlayerRinkCenter: ->
       angle = Utils.degreesToRadians(@angle)
       x = @rinkCenter()[0] + @rinkRadius()*Math.cos(angle)
       y = @rinkCenter()[1] + @rinkRadius()*Math.sin(angle)
+      [x, y]
+
+    textRadius: ->
+      @rinkRadius() + 100
+    calculateTextPosition: ->
+      angle = Utils.degreesToRadians(@angle)
+      x = @rinkCenter()[0] + @textRadius()*Math.cos(angle)
+      y = @rinkCenter()[1] + @textRadius()*Math.sin(angle)
+      if @angle < 90 or @angle > 270
+        x += 50
+      else
+        x -= 300
       [x, y]
 
   ActsAsObjectGroup.mixin(Goal)

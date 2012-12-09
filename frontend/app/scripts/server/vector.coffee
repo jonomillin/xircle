@@ -48,6 +48,9 @@ define ['server/utils'], (Utils) ->
         x*Math.sin(radians) + y*Math.cos(radians)
       ]
 
+    rotateDeg: (v, degrees) ->
+      Vector.rotateRad(v, Utils.degreesToRadians(degrees))
+
     reflect: (v, n) ->
       @subtract(
         v,

@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Xircle Remote</title>
+        <title>Xircle</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -14,29 +14,23 @@
 
         
         <link rel="stylesheet" href="styles/main.css">
+        <script src="scripts/vendor/modernizr.min.js"></script>
+        <script type="text/javascript" src="scripts/soundjs/SoundJS.js"></script>
+        <script type="text/javascript" src="scripts/soundjs/HTMLAudioPlugin.js"></script>
+        <script type="text/javascript" src="scripts/swfobject.js"></script>
+        <script type="text/javascript" src="scripts/soundjs/FlashPlugin.js"></script>
     </head>
     <body>
-
-      <div class='begin'>
-        <form id='register'>
-          <h1>Enter your name</h1>
-          <input type='text' name='name'> 
-          <input type='submit' value='go'>
-        </form>
+      <div id='stats'>
+        <div id='num_players'>0 players</div>
       </div>
 
-      <div id='touchy' style='width: 100%; min-height: 100%; background: #eeeeff'>
-        Close the keyboard if it's open, and touch here to move your player :)
-    </div>
-
+      <canvas id='gameboard' width=1000 height=768>
+      </canvas>
+    
     <!-- build:js scripts/amd-app.js -->
-    <script>
-      window.onerror = function(e) {
-        alert(e);
-      }
-    </script>
     <script src="scripts/require.config.js"></script>
-    <script data-main="scripts/remote" src="scripts/vendor/require.js"></script>
+    <script data-main="scripts/app" src="scripts/vendor/require.js"></script>
     <!-- endbuild -->
 </body>
 </html>

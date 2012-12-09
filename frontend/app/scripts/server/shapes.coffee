@@ -37,14 +37,7 @@ define ['easel', 'server/utils', 'server/sprites'], (easel, Utils, Sprites) ->
       container
 
   Shapes.Snowman =
-    draw: (options) ->
-      container = new easel.Container()
-      snowman = Sprites.snowman.clone()
-      snowman.x = -20
-      snowman.y = -20
-      container.addChild(snowman)
-      container
-
+    draw: drawCharacter('snowman')
   Shapes.Santa = 
     draw: drawCharacter('santa')
   Shapes.Rudolf = 
@@ -53,6 +46,8 @@ define ['easel', 'server/utils', 'server/sprites'], (easel, Utils, Sprites) ->
     draw: drawCharacter('tree')
   Shapes.Robin = 
     draw: drawCharacter('robin')
+  Shapes.Baby = 
+    draw: drawCharacter('baby')
 
 
   Shapes.Arc =
