@@ -22,7 +22,11 @@ define([
 ], function(_, $, easel, socket, PlayerManager, Template, Renderer, GameWorld, GameWorldRenderer, WorldObject, ArcObject, Rink, Ball, Collisions, Goal, Shapes, Player, Vector, Sounds) {
   $(function() {
 
-    socket.on('ip', function(ip) { console.log(ip+':3501')})
+    socket.on('ip', function(ip) { 
+      $('#ip').text('http://'+ip+':3501');
+    })
+
+    socket.emit('get_ip');
 
     manager = new PlayerManager({socket: socket});
     template = new Template($('#stats'));
@@ -41,6 +45,13 @@ define([
       wait: function() {
         ball.moveTo(center);
         ball.setVelocity([0,0]);
+      },
+      loses: function(name) {
+        $('body').html("<h1>"+name+" Loses :'(</h1>")
+        _.delay(function() {
+          window.location.reload()
+        },2000)
+
       },
       spinStart: function() {
         Game.wait();
@@ -81,8 +92,9 @@ define([
       deg += 60
 
       player_goal.setupBallCollisions(ball)
-      world.registerObjectBefore(player_goal, rink)
+      world.registerObjectStart(player_goal)
       world.registerObject(player)
+      console.log(world.objects)
 
       player_count ++ 
       if (player_count == 1) {

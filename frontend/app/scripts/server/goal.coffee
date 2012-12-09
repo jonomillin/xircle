@@ -18,6 +18,8 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
         snds[Math.floor(Math.random()*3)].play()
         window.Game.spinStart()
         @parts.score.lostPoint()
+        if @parts.score.score <= -5
+          window.Game.loses(@player.name)
         
       @registerCollision new Collisions.CircleWithCircle ball, @player, =>
         snds = [Sounds.cough1, Sounds.cough2, Sounds.cough3]
@@ -50,7 +52,8 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
     
     buildScore: ->
       @parts.score = new Score({
-        pos: @calculateTextPosition()
+        pos: @calculateTextPosition(),
+        title: @player.name
       })
       @registerObject @parts.score
 

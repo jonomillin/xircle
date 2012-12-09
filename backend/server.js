@@ -42,6 +42,10 @@ io.sockets.on('connection', function (socket) {
   //    gamespace.emit('player:new', playerId);
   //  });
   //});
+  socket.on('get_ip', function() {
+    socket.emit('ip', myIp()[0]);
+  });
+
   socket.emit('ip', myIp()[0]);
 
   socket.on('debug', function(data) {
@@ -51,7 +55,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('player:register', function(data) {
     var id = registerPlayer();
     console.log('Registered', id);
-    io.sockets.emit('player:register', id, {});
+    io.sockets.emit('player:register', id, data);
 
     socket.on('player:move_by', function(offsetVector) {
       io.sockets.emit('player:move_by', id, offsetVector)

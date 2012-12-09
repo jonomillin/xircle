@@ -19,11 +19,15 @@
         <script type="text/javascript" src="scripts/soundjs/HTMLAudioPlugin.js"></script>
         <script type="text/javascript" src="scripts/swfobject.js"></script>
         <script type="text/javascript" src="scripts/soundjs/FlashPlugin.js"></script>
+        <style>
+          body {
+            background-image: url(/images/ice.png);
+            font-family: helvetica;
+          }
+        </style>
     </head>
     <body>
-      <div id='stats'>
-        <div id='num_players'>0 players</div>
-      </div>
+      <h1>Connect at: <span id='ip'></span></h1>
 
       <canvas id='gameboard' width=1000 height=768>
       </canvas>

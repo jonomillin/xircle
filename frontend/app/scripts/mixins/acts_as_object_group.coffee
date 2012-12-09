@@ -11,9 +11,8 @@ define ['mixins/mixin', 'shared/micro_event', 'underscore'], (Mixin, Event, _) -
       @initCollisions() unless @collisions
       @collisions.forEach(cb)
 
-    registerObjectBefore: (object, before) ->
-      before_index = _.indexOf(@objects, before)
-      @objects.splice(0, before_index, object)
+    registerObjectStart: (object) ->
+      @objects.unshift(object)
 
     registerObject: (object) ->
       @initObjects()

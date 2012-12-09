@@ -4,7 +4,7 @@ define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (W
 
   class Player
     constructor: (attrs = {}) ->
-      @name = attrs.name
+      @name = attrs.name || "Phil"
       @id = attrs.id
       attrs.shape = player_pieces[ @id % player_pieces.length ]
       @world_object ||= new WorldObject(attrs)
