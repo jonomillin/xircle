@@ -87,6 +87,8 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
       if negative
         x = x - 50
         x = 0 if x<0
+      else
+        x = x + 55
 
       [x, y]
 
