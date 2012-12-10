@@ -22,16 +22,18 @@
         <style>
           body {
             background-image: url(/images/ice.png);
-            font-family: helvetica;
+            font-family: Fipps, helvetica;
           }
           canvas {
             display: block;
             margin: 0 auto;
           }
+          .connect { font-family: helvetica; }
+          h1.lost { margin-top: 300px; text-align: center; color: red; font-size: 500%;}
         </style>
     </head>
     <body>
-      <h1>Connect at: <span id='ip'></span></h1>
+      <h1 class='connect'>Connect at: <span id='ip'></span></h1>
 
       <canvas id='gameboard' width=1000 height=768>
       </canvas>

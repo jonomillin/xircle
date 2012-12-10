@@ -7,6 +7,7 @@ define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (W
       @name = attrs.name || "Phil"
       @id = attrs.id
       attrs.shape = player_pieces[ @id % player_pieces.length ]
+      console.log attrs.shape
       @world_object ||= new WorldObject(attrs)
       @score = 0
 

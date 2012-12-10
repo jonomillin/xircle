@@ -17,12 +17,12 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
         Sounds.music.pause()
         snds = [Sounds.cry1, Sounds.cry2, Sounds.cry3]
         snds[Math.floor(Math.random()*3)].play()
-        window.Game.spinStart()
         @parts.score.lostPoint()
         if @parts.score.score <= -5
           window.Game.loses(@player.name)
+        else
+          window.Game.spinStart()
         
-      console.log 'player'
       @registerCollision new Collisions.CircleWithCircle ball, @player, {
         onCollision: =>
           console.log 'onCollision'
@@ -73,16 +73,21 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
       y = @rinkCenter()[1] + @rinkRadius()*Math.sin(angle)
       [x, y]
 
-    textRadius: ->
-      @rinkRadius() + 100
+    textRadius: (neg) ->
+      if neg
+        @rinkCenter()[1] - 10
+      else
+        @rinkRadius() + 30
+
     calculateTextPosition: ->
       angle = Utils.degreesToRadians(@angle)
-      x = @rinkCenter()[0] + @textRadius()*Math.cos(angle)
-      y = @rinkCenter()[1] + @textRadius()*Math.sin(angle)
-      if @angle < 90 or @angle > 270
-        x += 50
-      else
-        x -= 300
+      negative = @angle > 90 and @angle < 270
+      x = @rinkCenter()[0] + @textRadius(negative)*Math.cos(angle)
+      y = @rinkCenter()[1] + @textRadius(negative)*Math.sin(angle)
+      if negative
+        x = x - 50
+        x = 0 if x<0
+
       [x, y]
 
   ActsAsObjectGroup.mixin(Goal)

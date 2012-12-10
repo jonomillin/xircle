@@ -53,10 +53,13 @@ define([
         ball.setVelocity([0,0]);
       },
       loses: function(name) {
-        $('body').html("<h1>"+name+" Loses :'(</h1>")
+        Game.wait()
+        Sounds.silent8.currentTime = 11
+        Sounds.silent8.play()
+        $('body').html("<h1 class='lost'>"+name+" Loses :'(</h1>")
         _.delay(function() {
           window.location.reload()
-        },2000)
+        },8000)
 
       },
       spinStart: function() {
@@ -99,14 +102,12 @@ define([
     var player_count = 0;
     manager.on('player:registered', function(player) { 
       if(player_count <= config.players) {
-        player_goal = new Goal({ rink: rink, player: player, angle: deg, goalmouthAngle: 35})
+        player_goal = new Goal({ rink: rink, player: player, angle: deg+120, goalmouthAngle: 35})
         deg += 360/config.players
-        console.log(config)
 
         player_goal.setupBallCollisions(ball)
         world.registerObjectStart(player_goal)
         world.registerObject(player)
-        console.log(world.objects)
 
         player_count ++ 
         if (player_count == config.players) {
