@@ -15,30 +15,39 @@
         
         <link rel="stylesheet" href="styles/main.css">
         <script src="scripts/vendor/modernizr.min.js"></script>
-        <script type="text/javascript" src="scripts/soundjs/SoundJS.js"></script>
-        <script type="text/javascript" src="scripts/soundjs/HTMLAudioPlugin.js"></script>
-        <script type="text/javascript" src="scripts/swfobject.js"></script>
-        <script type="text/javascript" src="scripts/soundjs/FlashPlugin.js"></script>
+        <script src="scripts/vendor/jquery.min.js"></script>
+          
         <style>
           body {
-            background-image: url(/images/ice.png);
             font-family: helvetica;
           }
-          canvas {
+          * {
+            margin: 0;
+            padding: 0;
+          }
+          img {
             display: block;
-            margin: 0 auto;
+            margin: 20px auto;
           }
         </style>
     </head>
     <body>
-      <h1>Connect at: <span id='ip'></span></h1>
+      <a href='/game.html?players=6'><img src='/images/splashbig.png'></a>
 
-      <canvas id='gameboard' width=1000 height=768>
-      </canvas>
-    
-    <!-- build:js scripts/amd-app.js -->
-    <script src="scripts/require.config.js"></script>
-    <script data-main="scripts/app" src="scripts/vendor/require.js"></script>
-    <!-- endbuild -->
+      <audio src='/sounds/silent8.mp3'></audio>
+      <script>
+        $(function() {
+          $('audio').on('canplay', function() {
+            this.currentTime = 11.5;
+            this.play()
+          });
+        });
+        //var snd = new Audio('/sounds/silent8.mp3');
+        //snd.oncanplay(function() {
+
+        //})
+        ////snd.currentTime = 2000;
+        //snd.play()
+      </script>
 </body>
 </html>

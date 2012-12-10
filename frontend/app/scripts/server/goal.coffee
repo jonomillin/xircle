@@ -14,6 +14,7 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
 
     setupBallCollisions: (ball) =>
       @registerCollision new Collisions.CircleWithAntiArc ball, @parts.goalMouth, =>
+        Sounds.music.pause()
         snds = [Sounds.cry1, Sounds.cry2, Sounds.cry3]
         snds[Math.floor(Math.random()*3)].play()
         window.Game.spinStart()
@@ -21,9 +22,14 @@ define ['jquery', 'server/utils', 'mixins/acts_as_object_group', 'server/arc_obj
         if @parts.score.score <= -5
           window.Game.loses(@player.name)
         
-      @registerCollision new Collisions.CircleWithCircle ball, @player, =>
-        snds = [Sounds.cough1, Sounds.cough2, Sounds.cough3]
-        snds[Math.floor(Math.random()*3)].play()
+      console.log 'player'
+      @registerCollision new Collisions.CircleWithCircle ball, @player, {
+        onCollision: =>
+          console.log 'onCollision'
+          snds = [Sounds.cough1, Sounds.cough2, Sounds.cough3]
+          snds[Math.floor(Math.random()*3)].play()
+        delay: 30
+      }
 
     setupPlayerCollisions:  ->
       @registerCollision new Collisions.CircleWithAntiCircle(@player, @parts.playerRink)

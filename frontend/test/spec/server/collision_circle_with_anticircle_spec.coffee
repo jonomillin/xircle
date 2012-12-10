@@ -11,12 +11,28 @@ define ['server/collisions'], (Collisions) ->
       @expectSubjectMovedBy = (offsetP) -> @mock.expects('moveBy').withArgs(offsetP)
 
     set -> @subject = { position: [50,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 11), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
-    set -> @antiCircle = { getPosition: (-> [50,50]), getRadius: (-> 50), getVelocity: (-> [0,0]) }
+    set -> @antiCircle = { getPosition: (-> [50,50]), getRadius: (-> 50), getVelocity: (-> [0,0]), getRoughness: (-> 0) }
 
     set -> @collision = new Collisions.CircleWithAntiCircle(@subject, @antiCircle)
     set -> @mock = sinon.mock(@subject)
 
     afterEach -> @mock.verify().should.be.true
+
+    describe 'collide delay', ->
+      beforeEach -> @subjectStart position: [91,50]
+      it 'should collide every time if no collide delay', ->
+        @mock.expects('setVelocity').exactly(2)
+        @collision.collide()
+        @collision.collide()
+
+      it 'should not collide if given a collide delay', ->
+        @collision = new Collisions.CircleWithAntiCircle(@subject, @antiCircle, {delay: 2})
+        @mock.expects('setVelocity').exactly(2)
+        @collision.collide()
+        @collision.collide()
+        @collision.collide()
+        @collision.collide()
+        
 
     describe 'deal with velocity', ->
       describe 'simple collisions', ->

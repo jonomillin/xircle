@@ -1,11 +1,19 @@
-define ['server/vector', 'server/utils'], (Vector, Utils) ->
+define ['server/vector', 'server/utils', 'underscore'], (Vector, Utils, _) ->
   Collisions = {}
   
   class Collisions.CircleWithAntiCircle
     constructor: (subject, collider, onCollision=->) ->
       @subject = subject
       @collider = collider
-      @collisionCallback = onCollision
+      if _.isFunction(onCollision)
+        @collisionCallback = onCollision
+        @collisionDelay = 0
+      else
+        @extractOptions(onCollision)
+
+    extractOptions: (options) ->
+      @collisionCallback = options.onCollision || (-> )
+      @collisionDelay = options.delay || 0
 
     collide: ->
       @onCollision() if @doesCollide()
@@ -19,13 +27,26 @@ define ['server/vector', 'server/utils'], (Vector, Utils) ->
     overlapDistance: ->
       Vector.length(@separationVector()) + @subject.getRadius() - @collider.getRadius()
 
+    countdownCheck: ->
+      @countdown ||= 0
+      if @countdown == 0
+        return true
+      else
+        @countdown -= 1
+        return false
+
+    setCountdown: ->
+      if @collisionDelay > 0
+        @countdown = @collisionDelay
+      
     doesCollide: ->
-      @overlapDistance() > 0
+      @countdownCheck() && (@overlapDistance() > 0)
 
     onCollision: ->
       @fixVelocity()
       @fixOverlap()
       @collisionCallback()
+      @setCountdown()
 
     fixVelocity: ->
       normal = @collisionNormal()

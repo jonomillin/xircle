@@ -9,11 +9,22 @@ define([
     $('form').submit(function(e) { 
       e.preventDefault()
       var name = $('input[name="name"]').val();
-      register(name);
       $(this).remove();
       $('#touchy').show();
+      if(socket.socket.connected) {
+        register(name);
+      } else {
+        socket.on('connect', function() { 
+          register(name) } );
+      }
     });
+
+    //$('#touchy').show()
+    //$('form').remove()
+    //register('phil')
+    
     function register(player_name) { 
+
       //socket.on('connect', function() {
         console.log('regiser');
         var player = new Player({name: player_name, socket: socket})

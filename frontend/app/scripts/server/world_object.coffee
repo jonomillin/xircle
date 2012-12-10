@@ -44,6 +44,7 @@ define ['server/vector', 'server/graphic', 'server/shapes', 'server/low_pass_fil
         @move_filter.push(posVec)
         angle = Vector.angleDeg(@move_filter.value())
         @setAngle( ((angle - 90) % 360))
+        
       @position = Vector.add( @position, posVec )
 
     moveByTimestep: (timestep) ->

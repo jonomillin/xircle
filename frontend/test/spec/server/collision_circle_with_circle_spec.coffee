@@ -11,7 +11,7 @@ define ['server/collisions'], (Collisions) ->
       @expectSubjectMovedBy = (offsetP) -> @mock.expects('moveBy').withArgs(offsetP)
 
     set -> @subject = { position: [0,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 11), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
-    set -> @circle = { getPosition: (-> [50,50]), getRadius: (-> 10), getVelocity: (-> [0,0]) }
+    set -> @circle = { getPosition: (-> [50,50]), getRadius: (-> 10), getVelocity: (-> [0,0]), getRoughness: (-> 0) }
     set -> @collision = new Collisions.CircleWithCircle(@subject, @circle)
 
     set -> @mock = sinon.mock(@subject)

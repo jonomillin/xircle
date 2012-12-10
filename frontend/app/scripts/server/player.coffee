@@ -1,6 +1,6 @@
 define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (WorldObject, WrapsWorldObject, Shapes) ->
 
-  player_pieces = [Shapes.Snowman, Shapes.Santa, Shapes.Tree, Shapes.Rudolf, Shapes.Robin, Shapes.Tree]
+  player_pieces = [Shapes.Snowman, Shapes.Santa, Shapes.Tree, Shapes.Rudolf, Shapes.Robin, Shapes.Elf]
 
   class Player
     constructor: (attrs = {}) ->

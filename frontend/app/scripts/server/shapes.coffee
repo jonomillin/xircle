@@ -48,6 +48,8 @@ define ['easel', 'server/utils', 'server/sprites'], (easel, Utils, Sprites) ->
     draw: drawCharacter('robin')
   Shapes.Baby = 
     draw: drawCharacter('baby')
+  Shapes.Elf = 
+    draw: drawCharacter('elf')
 
 
   Shapes.Arc =
