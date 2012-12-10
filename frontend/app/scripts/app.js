@@ -102,7 +102,7 @@ define([
     var player_count = 0;
     manager.on('player:registered', function(player) { 
       if(player_count <= config.players) {
-        player_goal = new Goal({ rink: rink, player: player, angle: deg+120, goalmouthAngle: 35})
+        player_goal = new Goal({ rink: rink, player: player, angle: deg, goalmouthAngle: 35})
         deg += 360/config.players
 
         player_goal.setupBallCollisions(ball)
