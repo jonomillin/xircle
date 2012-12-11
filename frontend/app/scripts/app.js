@@ -76,11 +76,15 @@ define([
           Sounds.music.play()
           clearInterval(interval);
           if (config.players >= 4) {
-            ball.setVelocity(Vector.rotateDeg([0.4,0], angle));
+            ball.setVelocity(Vector.rotateDeg([parseFloat(config.speed)||0.4,0], angle));
           } else {
-            ball.setVelocity(Vector.rotateDeg([0.4,0], 0));
+            ball.setVelocity(Vector.rotateDeg([parseFloat(config.speed)||0.4,0], 0));
           }
         }, 2000 + Math.random()*2000);
+
+        setInterval(function() {
+          ball.setVelocity(Vector.scale(1.05, ball.getVelocity()));
+        }, 5000);
       },
     }
 
