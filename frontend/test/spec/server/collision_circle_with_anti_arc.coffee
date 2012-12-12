@@ -10,7 +10,7 @@ define ['server/collisions'], (Collisions) ->
       @expectSubjectVelocitySetTo = (newV) -> @mock.expects('setVelocity').withArgs(newV)
       @expectSubjectMovedBy = (offsetP) -> @mock.expects('moveBy').withArgs(offsetP)
 
-    set -> @subject = { position: [50,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 10), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
+    set -> @subject = { position: [50,50], velocity: [10,0], getPosition: (-> @position), getRadius: (-> 11), getVelocity: (-> @velocity), setVelocity: (-> true), moveBy: (-> true) }
     set -> @antiArc = { getPosition: (-> [50,50]), getRadius: (-> 50), getVelocity: (-> [0,0]), getArcAngles: (-> [-45,45]) }
 
     set -> @collision = new Collisions.CircleWithAntiArc(@subject, @antiArc)

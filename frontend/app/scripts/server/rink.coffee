@@ -1,8 +1,9 @@
-define ['server/world_object', 'server/wraps_world_object'], (WorldObject, WrapsWorldObject) ->
+define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (WorldObject, WrapsWorldObject, Shapes) ->
 
   class Rink
     constructor: (attrs = {}) ->
-      @world_object ||= new WorldObject( attrs.object_attrs || {})
+      attrs.shape ||= Shapes.CircleIce
+      @world_object ||= new WorldObject( attrs )
   
   WrapsWorldObject.mixin(Rink)
 

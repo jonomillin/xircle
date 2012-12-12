@@ -7,7 +7,9 @@ define ['mixins/delegator'], (Delegator) ->
         'setVelocity', 'getVelocity',
         'setPosition', 'getPosition',
         'getRadius',
-        'step', 'renderTo'
+        'getRoughness',
+        'step', 'renderTo',
+        'setAngle'
       ], to: 'world_object'}
 
     Delegator.mixin(destObject)

@@ -7,7 +7,6 @@ define([
 'tests/spec/test/spec/server/collision_circle_with_anticircle_spec',
 'tests/spec/test/spec/server/collision_circle_with_circle_spec',
 'tests/spec/test/spec/server/game_world_renderer_spec',
-'tests/spec/test/spec/server/goal_spec',
 'tests/spec/test/spec/server/graphic',
 'tests/spec/test/spec/server/player_manager_spec',
 'tests/spec/test/spec/server/player_spec',

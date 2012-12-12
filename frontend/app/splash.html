@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Xircle</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        
+        <link rel="stylesheet" href="styles/main.css">
+        <script src="scripts/vendor/modernizr.min.js"></script>
+        <script src="scripts/vendor/jquery.min.js"></script>
+          
+        <style>
+          body {
+            font-family: helvetica;
+          }
+          * {
+            margin: 0;
+            padding: 0;
+          }
+          img {
+            display: block;
+            margin: 20px auto;
+          }
+        </style>
+    </head>
+    <body>
+      <a href='/game.html?players=6'><img src='/images/splashbig.png'></a>
+
+      <audio src='/sounds/silent8.mp3'></audio>
+      <script>
+        $(function() {
+          $('audio').on('canplay', function() {
+            this.currentTime = 11.5;
+            this.play()
+          });
+        });
+        //var snd = new Audio('/sounds/silent8.mp3');
+        //snd.oncanplay(function() {
+
+        //})
+        ////snd.currentTime = 2000;
+        //snd.play()
+      </script>
+</body>
+</html>

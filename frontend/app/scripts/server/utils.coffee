@@ -15,5 +15,7 @@ define [], () ->
       if angle > 180
         angle = 360 - angle
       lower <= angle and angle <= upper
-  window.Utils = Utils
-  Utils
+
+    randomInRange: (lower, upper) ->
+      delta = upper - lower
+      Math.random()*delta - delta/2

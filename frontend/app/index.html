@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Xircle</title>
+        <title>Xircle Remote</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -14,19 +14,29 @@
 
         
         <link rel="stylesheet" href="styles/main.css">
-        <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
-      <div id='stats'>
-        <div id='num_players'>0 players</div>
+
+      <div class='begin'>
+        <form id='register'>
+          <h1>Enter your name</h1>
+          <input type='text' name='name'> 
+          <input type='submit' value='go'>
+        </form>
       </div>
 
-      <canvas id='gameboard' width=1000 height=600>
-      </canvas>
-    
+      <div id='touchy' style='width: 100%; height: 500px; background: #eeeeff'>
+        Close the keyboard if it's open, and touch here to move your player :)
+    </div>
+
     <!-- build:js scripts/amd-app.js -->
+    <script>
+      window.onerror = function(e) {
+        alert(e);
+      }
+    </script>
     <script src="scripts/require.config.js"></script>
-    <script data-main="scripts/app" src="scripts/vendor/require.js"></script>
+    <script data-main="scripts/remote" src="scripts/vendor/require.js"></script>
     <!-- endbuild -->
 </body>
 </html>

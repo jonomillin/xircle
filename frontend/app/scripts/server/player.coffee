@@ -1,10 +1,19 @@
-define ['server/world_object', 'server/wraps_world_object'], (WorldObject, WrapsWorldObject) ->
+define ['server/world_object', 'server/wraps_world_object', 'server/shapes'], (WorldObject, WrapsWorldObject, Shapes) ->
+
+  player_pieces = [Shapes.Snowman, Shapes.Santa, Shapes.Tree, Shapes.Rudolf, Shapes.Robin, Shapes.Elf]
 
   class Player
     constructor: (attrs = {}) ->
-      @name = attrs.name
-      @world_object ||= new WorldObject()
-      
+      @name = attrs.name || "Phil"
+      @id = attrs.id
+      attrs.shape = player_pieces[ @id % player_pieces.length ]
+      console.log attrs.shape
+      @world_object ||= new WorldObject(attrs)
+      @score = 0
+
+    lostPoint: ->
+      @score = @score - 1
+
   WrapsWorldObject.mixin(Player)
       
   return Player
